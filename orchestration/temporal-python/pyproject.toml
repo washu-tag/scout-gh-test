@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "temporalpy"
+version = "0.1.0"
+description = "Scout temporal orchestrations in python"
+readme = "README.md"
+authors = [
+    {name = "John Flavin", email = "jflavin@wustl.edu"},
+]
+maintainers = [
+    {name = "John Flavin", email = "jflavin@wustl.edu"},
+]
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+]
+requires-python = ">= 3.8"  # Lower limit is a guess
+dependencies = [
+    "deltalake",
+    "httpx",
+    "hl7",
+    "pandas",
+    "requests",
+    "s3fs",
+    "temporalio",
+]
