@@ -6,22 +6,24 @@ repos:
       - id: check-merge-conflict
       - id: detect-private-key
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v4.0.0-alpha.8"
+    rev: 'v4.0.0-alpha.8'
     hooks:
       - id: prettier
-        files: \.([jt]sx?|css)$  # *.js, *.jsx, *.ts, *.tsx, and *.css
+        additional_dependencies:
+          - prettier@3.4.2
+        files: \.([jt]sx?|css|json|yml|yaml)$ # *.js, *.jsx, *.ts, *.tsx, *.css, ...
         types: [file]
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: 'v9.12.0'
     hooks:
       - id: eslint
-        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
+        files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
         types: [file]
         additional_dependencies:
           - eslint@9.12.0
-          - "@eslint/eslintrc@3.1.0"
-          - "@eslint/js@9.12.0"
-          - "@eslint/compat@1.2.0"
+          - '@eslint/eslintrc@3.1.0'
+          - '@eslint/js@9.12.0'
+          - '@eslint/compat@1.2.0'
           - eslint-config-next@15.0.0-rc.1
           - next@15.0.0-rc.1
           - typescript-eslint@8.9.0
@@ -38,3 +40,9 @@ repos:
         verbose: true
         pass_filenames: false
         entry: bash -c 'cd orchestration/temporal-java && ./gradlew clean checkstyleMain checkstyleTest'
+      - id: checkstyle-tests
+        name: checkstyle
+        language: system
+        verbose: true
+        pass_filenames: false
+        entry: bash -c 'cd tests && ./gradlew clean checkstyleMain checkstyleTest'
