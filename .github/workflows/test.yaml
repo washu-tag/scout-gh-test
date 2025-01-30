@@ -43,7 +43,7 @@ jobs:
       - name: Launch temporal workflow
         shell: bash
         run: >
-          kubectl exec -n temporal -it service/temporal-admintools -- temporal workflow start
+          kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow start
           --task-queue ingest-hl7-log
           --type IngestHl7LogWorkflow
           --input '{"deltaLakePath":"<deltaLakePath>", "hl7OutputPath":"<hl7OutputPath>", "scratchSpaceRootPath":"<scratchSpaceRootPath>", "logsRootPath": "<logsRootPath>", "date":"<YYYYMMDD>"}'
