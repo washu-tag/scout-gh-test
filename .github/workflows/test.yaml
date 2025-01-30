@@ -44,6 +44,7 @@ jobs:
         shell: bash
         run: |
           kubectl -n temporal wait --for=condition=available --timeout=120s deployment/temporal-frontend
+          sleep 120s
           kubectl -n temporal get all
           kubectl describe nodes
           kubectl -n temporal get events --sort-by='.lastTimestamp'
