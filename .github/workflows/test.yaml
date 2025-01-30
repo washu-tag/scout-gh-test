@@ -43,10 +43,10 @@ jobs:
       - name: Wait for temporal starup
         shell: bash
         run: |
+          kubectl -n explorer wait --for=condition=available --timeout=120s deployment/temporal-frontend
           kubectl -n temporal get all
           kubectl describe nodes
           kubectl -n temporal get events --sort-by='.lastTimestamp'
-          kubectl -n temporal wait --for=condition=Ready --timeout=300s pod/temporal-frontend-*
       - name: Launch temporal workflow
         shell: bash
         run: >
