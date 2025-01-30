@@ -45,7 +45,7 @@ jobs:
         run: |
           sleep 30s
           kubectl -n temporal get all
-          kubectl -n temporal wait --for=condition=Ready --timeout=60s deployment.apps/temporal-frontend
+          kubectl -n temporal wait --for=condition=Ready --timeout=120s deployment.apps/temporal-frontend
       - name: Launch temporal workflow
         shell: bash
         run: >
