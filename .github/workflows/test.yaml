@@ -29,6 +29,11 @@ jobs:
           helm repo update temporal
           kubectl create ns temporal
           helm upgrade --install -n temporal temporal temporal/temporal
+      - name: Build images
+        shell: bash
+        run: |
+          docker build -t local/temporal-java:latest orchestration/temporal-java/
+          docker build -t local/temporal-python:latest orchestration/temporal-python/
       - name: Launch Temporal Workers
         shell: bash
         run: |
