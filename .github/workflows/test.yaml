@@ -40,7 +40,11 @@ jobs:
           kubectl create ns orchestration-workers
           helm upgrade --install -n orchestration-workers temporal-java helm/orchestration/temporal-worker -f helm/orchestration/temporal-java.values.yaml
           helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml
-          kubectl -n temporal get events
+      - name: Wait for temporal starup
+        shell: bash
+        run: |
+          sleep 30s
+          kubectl -n temporal get all
       - name: Launch temporal workflow
         shell: bash
         run: >
