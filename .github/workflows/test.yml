@@ -3,6 +3,7 @@ name: Post-Commit Tasks
 on:
   pull_request:
     types: [opened, reopened]
+  push:
 
 env:
   JAVA_DIST: 'zulu'
@@ -10,15 +11,25 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  lint:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.1
-      - uses: actions/setup-python@v5.2.0
+      - name: Start a local k8s cluster
+        uses: jupyterhub/action-k3s-helm@v4
         with:
-          python-version: '3.12'
-      - uses: actions/setup-java@v4
-        with:
-          distribution: ${{ ENV.JAVA_DIST }}
-          java-version: ${{ ENV.JAVA_VERSION }}
-      - uses: pre-commit/action@v3.0.1
+          k3s-channel: latest
+          traefik-enabled: false
+      - name: Deploy helm chart to kubernetes
+        shell: bash
+        run: |
+          helm repo add temporal https://go.temporal.io/helm-charts
+          helm repo update temporal
+          kubectl create ns temporal
+          helm upgrade --install -n temporal temporal temporal/temporal --set-json web.additionalEnv='[{"TEMPORAL_CSRF_COOKIE_INSECURE":"true"}]'
+      - name: Launch Temporal Workers
+        shell: bash
+        run: |
+          kubectl create ns orchestration-workers
+          helm upgrade --install -n orchestration-workers temporal-java helm/orchestration/temporal-worker -f helm/orchestration/temporal-java.values.yaml
+          helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml
