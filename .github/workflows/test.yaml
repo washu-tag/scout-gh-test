@@ -28,7 +28,7 @@ jobs:
           helm repo add temporal https://go.temporal.io/helm-charts
           helm repo update temporal
           kubectl create ns temporal
-          helm upgrade --install -n temporal temporal temporal/temporal --set-json web.additionalEnv='[{"name": "TEMPORAL_CSRF_COOKIE_INSECURE", "value": "true"}]' --set prometheus.enabled=false --set grafana.enabled=false --set server.replicaCount=1 --set cassandra.config.cluster_size=1 --set elasticsearch.replicas=1 --set server.namespaces.create=true
+          helm upgrade --install -n temporal temporal temporal/temporal --set-json web.additionalEnv='[{"name": "TEMPORAL_CSRF_COOKIE_INSECURE", "value": "true"}]' --set prometheus.enabled=false --set grafana.enabled=false --set server.replicaCount=1 --set cassandra.config.cluster_size=1 --set elasticsearch.replicas=1 --set server.config.namespaces.create=true
       - name: Build images
         shell: bash
         run: |
@@ -54,6 +54,7 @@ jobs:
           kubectl -n temporal wait --for=jsonpath='{.status.initContainerStatuses[?(@.name=="check-elasticsearch-index")].state.terminated.reason}'=Completed --timeout=60s pod -l app.kubernetes.io/component=frontend
           kubectl -n temporal describe pod -l app.kubernetes.io/component=admintools
           kubectl -n temporal wait --for=condition=ready --timeout=120s pod -l app.kubernetes.io/component=admintools
+          kubectl -n temporal wait --for=condition=complete job/temporal-schema-1
       - name: Launch temporal workflow
         shell: bash
         run: >
