@@ -47,13 +47,7 @@ jobs:
       - name: Wait for temporal startup
         shell: bash
         run: |
-          kubectl -n temporal wait --for=condition=available --timeout=120s deployment/temporal-frontend
-          kubectl -n temporal wait --for=jsonpath='{.status.conditions[?(@.type=="Ready")].status}' --timeout=60s pod -l app.kubernetes.io/component=frontend
-          kubectl -n temporal wait --for=jsonpath='{.status.conditions[?(@.type=="ContainersReady")].status}' --timeout=60s pod -l app.kubernetes.io/component=frontend
-          kubectl -n temporal wait --for=jsonpath='{.status.containerStatuses[?(@.name=="temporal-frontend")].state.running.startedAt}' --timeout=60s pod -l app.kubernetes.io/component=frontend
-          kubectl -n temporal wait --for=jsonpath='{.status.initContainerStatuses[?(@.name=="check-elasticsearch-index")].state.terminated.reason}'=Completed --timeout=60s pod -l app.kubernetes.io/component=frontend
-          kubectl -n temporal wait --for=condition=ready --timeout=120s pod -l app.kubernetes.io/component=admintools
-          kubectl -n temporal wait --for=condition=complete --timeout=120s job/temporal-schema-1
+          kubectl -n temporal wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: Launch temporal workflow
         shell: bash
         run: >
