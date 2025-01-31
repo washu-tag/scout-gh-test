@@ -40,14 +40,22 @@ jobs:
           kubectl create ns orchestration-workers
           helm upgrade --install -n orchestration-workers temporal-java helm/orchestration/temporal-worker -f helm/orchestration/temporal-java.values.yaml
           helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml
-      - name: Wait for temporal starup
+      - name: Wait for temporal startup
         shell: bash
         run: |
           kubectl -n temporal wait --for=condition=available --timeout=120s deployment/temporal-frontend
-          kubectl -n temporal wait --for=jsonpath='{.status.loadBalancer.ingress}' --timeout=60s service/temporal-frontend
+      - name: 'Run kubectl -n temporal get all'
+        shell: bash
+        run: |
           kubectl -n temporal get all
-          kubectl describe nodes
-          kubectl -n temporal get events --sort-by='.lastTimestamp'
+      - name: 'Run kubectl -n temporal describe pods'
+        shell: bash
+        run: |
+          kubectl -n temporal describe pods
+      - name: 'Run kubectl get pod -l app.kubernetes.io/component=frontend -n temporal -o json'
+        shell: bash
+        run: |
+          kubectl get pod -l app.kubernetes.io/component=frontend -n temporal -o json
       - name: Launch temporal workflow
         shell: bash
         run: >
