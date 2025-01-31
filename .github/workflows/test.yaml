@@ -44,14 +44,6 @@ jobs:
         shell: bash
         run: |
           kubectl -n temporal wait --for=condition=available --timeout=120s deployment/temporal-frontend
-      - name: 'Run kubectl -n temporal get all'
-        shell: bash
-        run: |
-          kubectl -n temporal get all
-      - name: 'Run kubectl -n temporal describe pods'
-        shell: bash
-        run: |
-          kubectl -n temporal describe pods
       - name: 'Run kubectl get pod -l app.kubernetes.io/component=frontend -n temporal -o json'
         shell: bash
         run: |
