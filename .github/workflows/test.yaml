@@ -53,11 +53,11 @@ jobs:
           kubectl -n temporal wait --for=jsonpath='{.status.conditions[?(@.type=="Ready")].status}' --timeout=60s pod -l app.kubernetes.io/component=frontend
           kubectl -n temporal wait --for=jsonpath='{.status.conditions[?(@.type=="ContainersReady")].status}' --timeout=60s pod -l app.kubernetes.io/component=frontend
           kubectl -n temporal wait --for=jsonpath='{.status.containerStatuses[?(@.name=="temporal-frontend")].state.running.startedAt}' --timeout=60s pod -l app.kubernetes.io/component=frontend
-          kubectl -n temporal wait --for=jsonpath='{.status.initContainerStatuses[?(@.name=="check-elasticsearch-index")].state.terminated.reason}'=Completed --timeout=60s pod -l app.kubernetes.io/component=frontend || kubectl get pod -l app.kubernetes.io/component=frontend -n temporal -o json
+          kubectl -n temporal wait --for=jsonpath='{.status.initContainerStatuses[?(@.name=="check-elasticsearch-index")].state.terminated.reason}'=Completed --timeout=60s pod -l app.kubernetes.io/component=frontend
       - name: Launch temporal workflow
         shell: bash
         run: >
           kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow start
           --task-queue ingest-hl7-log
           --type IngestHl7LogWorkflow
-          --input '{"deltaLakePath":"<deltaLakePath>", "hl7OutputPath":"<hl7OutputPath>", "scratchSpaceRootPath":"<scratchSpaceRootPath>", "logsRootPath": "<logsRootPath>", "date":"<YYYYMMDD>"}'
+          --input '{"deltaLakePath":"<deltaLakePath>", "hl7OutputPath":"<hl7OutputPath>", "scratchSpaceRootPath":"<scratchSpaceRootPath>", "logsRootPath": "<logsRootPath>", "date":"<YYYYMMDD>"}' || kubectl get pod -l app.kubernetes.io/component=frontend -n temporal -o json
