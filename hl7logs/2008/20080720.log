@@ -1,0 +1,11 @@
+2008-07-20 18:40:17.7273|INFO|Raw.Application.TcpServer.TcpServer|
+<SB>
+MSH|^~\&|SOMERIS|ABCHOSP|SOMEAPP|ABC_HOSP_DEPT_X|20080720184017|TBD|ORU^R01|2.25.112580433649952604662216374346650562865|P|2.4<R>
+PID|1||ABC3934737^^^ABC^MR~EPIC969201^^^EPIC^MRN||HAIL^ANGELA^REBECCA^^^^D||19430310000000|F||B|123 STREET^^CITY CITY^MO^61111^USA^L^^COUNTY||5555555555|||S||ABC3934737^^^ABC^PN<R>
+PV1||O|ABC RAD5^ABC RAD5 R-5005^ABC RAD5 R-5005^ABC||||D8101768^GILBERT^HEATHER^L.^M.D.^^^^ABC^^^^HOSP|^^|^^|RAD|||||||||V91809^^^ABC^VN||||||||||||||||||||||||||||||||V<R>
+OBR||3476127^SYS|2372600714|ZIV00306^00306 BRAIN DMRI^UNKDEV|URGENT||20080718143833|||PSCRIB|||||^^^^ |D8101778^RAMOS^JOSHUA^ROLANDO^M.D.^^^^ABC|||||00306^Brain dMRI|20080720184017||ZIV|||1^^^20080720184017^^U^^URGENT|       |||^Chest pain|D8101775^MOORE^PAUL^S.^^^M.D.|D8101772^FRYE^AMY^L.^^^M.D.||PSCRIB|||||||||00306<R>
+OBX|1|TX|969448||PAUL MOORE, M.D.~~~~********FINAL REPORT********~~~ ||||||F<R>
+OBX|2|TX|969448||ACC#  Date Time  Exam~~2372600714 Jul 20 2008 06:40PM ZIV00306 BRAIN DMRI~~EXAMINATION:~Brain MRI~~FINDINGS:~The brain MRI demonstrates a normal anatomical configuration without~evidence of acute intracranial hemorrhage or ischemia. The ventricles~are symmetric and of appropriate size, with no signs of atrophy.~Cortical sulci are unremarkable, and the gray-white matter~differentiation is preserved. There are no mass lesions, and~diffusion-weighted images reveal no restricted diffusion. Compared to~any previous brain imaging, particularly no remarkable changes since~the last study, dated 2014-01-04.~~IMPRESSION:~1. Overall, the brain MRI is unremarkable and within normal limits.~2. No acute or chronic intracranial processes are identified.||||||F<R>
+OBX|3|TX|969448||Requested By: Ramos,Joshua R. M.D.~~Dictated By: Paul Moore, M.D. on Jul 20 2008 06:40PM~~This document has been electronically signed by: Paul Moore, M.D. on~Jul 20 2008 06:40PM~ ~~~ ~~~ ||||||F<R>
+OBX||RP|969448|4|2372600714^UK^ZB||||||F<R>
+<EB>

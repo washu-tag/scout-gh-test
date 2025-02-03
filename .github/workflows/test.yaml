@@ -10,7 +10,10 @@ on:
 env:
   JAVA_DIST: 'zulu'
   JAVA_VERSION: '21'
-  REGISTRY: ghcr.io
+  REGISTRY: 'ghcr.io'
+  DELTA_LAKE_PATH: 's3://synthetic/delta/hl7'
+  HL7_OUTPUT_PATH: '/tmp/hl7'
+  SCRATCH_PATH: '/tmp/scratch'
 
 jobs:
   deploy:
@@ -28,7 +31,8 @@ jobs:
           helm repo add temporal https://go.temporal.io/helm-charts
           helm repo update temporal
           kubectl create ns temporal
-          helm upgrade --install -n temporal temporal temporal/temporal --set-json web.additionalEnv='[{"name": "TEMPORAL_CSRF_COOKIE_INSECURE", "value": "true"}]' --set prometheus.enabled=false --set grafana.enabled=false --set server.replicaCount=1 --set cassandra.config.cluster_size=1 --set elasticsearch.replicas=1 --set server.config.namespaces.create=true
+          kubectl config set-context --current --namespace=temporal
+          helm upgrade --install temporal temporal/temporal --set-json web.additionalEnv='[{"name": "TEMPORAL_CSRF_COOKIE_INSECURE", "value": "true"}]' --set prometheus.enabled=false --set grafana.enabled=false --set server.replicaCount=1 --set cassandra.config.cluster_size=1 --set elasticsearch.replicas=1 --set server.config.namespaces.create=true
       - name: Build images
         shell: bash
         run: |
@@ -36,22 +40,31 @@ jobs:
           docker tag ghcr.io/washu-tag/temporal-java:latest local/temporal-java
           docker pull ghcr.io/washu-tag/temporal-python:latest
           docker tag ghcr.io/washu-tag/temporal-python:latest local/temporal-python
-      - name: Launch Temporal Workers
+      - name: Prepare Temporal
         shell: bash
         run: |
           kubectl create ns orchestration-workers
           kubectl -n orchestration-workers create secret generic s3-secret --from-literal=AWS_ACCESS_KEY_ID=admin --from-literal=AWS_SECRET_ACCESS_KEY=password
           kubectl -n orchestration-workers create configmap s3-env --from-literal=AWS_ENDPOINT_URL=http://minio.minio:9000 --from-literal=AWS_ALLOW_HTTP=true --from-literal=AWS_REGION=us-east-1
-          helm upgrade --install -n orchestration-workers temporal-java helm/orchestration/temporal-worker -f helm/orchestration/temporal-java.values.yaml
+      - name: Launch temporal-java
+        shell: bash
+        run: >
+          helm upgrade --install -n orchestration-workers temporal-java helm/orchestration/temporal-worker
+          -f helm/orchestration/temporal-java.values.yaml
+          --set volumes[0].name=hl7logs
+          --set volumes[0].hostpath.path=./hl7logs
+      - name: Launch temporal-python
+        shell: bash
+        run:
           helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml
       - name: Wait for temporal startup
         shell: bash
         run: |
-          kubectl -n temporal wait --for=condition=complete --timeout=300s job/temporal-schema-1
+          kubectl wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: Launch temporal workflow
         shell: bash
         run: >
-          kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow start
+          kubectl exec -i service/temporal-admintools -- temporal workflow start
           --task-queue ingest-hl7-log
           --type IngestHl7LogWorkflow
-          --input '{"deltaLakePath":"<deltaLakePath>", "hl7OutputPath":"<hl7OutputPath>", "scratchSpaceRootPath":"<scratchSpaceRootPath>", "logsRootPath": "<logsRootPath>", "date":"<YYYYMMDD>"}'
+          --input '{"deltaLakePath":"${{ ENV.DELTA_LAKE_PATH }}", "hl7OutputPath":"${{ ENV.HL7_OUTPUT_PATH }}", "scratchSpaceRootPath":"${{ ENV.SCRATCH_PATH }}", "logsRootPath": "/hl7logs", "date":"20080720"}'
