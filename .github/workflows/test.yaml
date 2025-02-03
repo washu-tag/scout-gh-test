@@ -51,7 +51,7 @@ jobs:
           helm upgrade --install -n orchestration-workers temporal-java helm/orchestration/temporal-worker
           -f helm/orchestration/temporal-java.values.yaml
           --set volumes[0].name=hl7logs
-          --set volumes[0].hostPath.path=./hl7logs
+          --set volumes[0].hostPath.path=${{ $(pwd) }}/hl7logs
       - name: Launch temporal-python
         shell: bash
         run:
