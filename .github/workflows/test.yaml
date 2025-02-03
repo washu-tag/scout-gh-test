@@ -68,3 +68,4 @@ jobs:
           --task-queue ingest-hl7-log
           --type IngestHl7LogWorkflow
           --input '{"deltaLakePath":"${{ ENV.DELTA_LAKE_PATH }}", "hl7OutputPath":"${{ ENV.HL7_OUTPUT_PATH }}", "scratchSpaceRootPath":"${{ ENV.SCRATCH_PATH }}", "logsRootPath": "/hl7logs", "date":"20080720"}'
+          --output json
