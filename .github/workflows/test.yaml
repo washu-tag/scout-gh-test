@@ -36,10 +36,8 @@ jobs:
       - name: Build images
         shell: bash
         run: |
-          docker pull ghcr.io/washu-tag/temporal-java:latest
-          docker tag ghcr.io/washu-tag/temporal-java:latest local/temporal-java
-          docker pull ghcr.io/washu-tag/temporal-python:latest
-          docker tag ghcr.io/washu-tag/temporal-python:latest local/temporal-python
+          docker build -t local/temporal-java:latest orchestration/temporal-java/
+          docker build -t local/temporal-python:latest orchestration/temporal-python/
       - name: Prepare Temporal
         shell: bash
         run: |
