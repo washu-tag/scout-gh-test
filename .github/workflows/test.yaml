@@ -56,10 +56,15 @@ jobs:
         shell: bash
         run:
           helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml
+      - name: Debug
+        shell: bash
+        run: |
+          sleep 5s
+          kubectl get events
+          kubectl describe pods
       - name: Wait for temporal startup
         shell: bash
         run: |
-          docker images
           kubectl wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: Launch temporal workflow
         shell: bash
