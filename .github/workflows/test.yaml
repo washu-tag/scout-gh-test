@@ -52,26 +52,26 @@ jobs:
           -f helm/orchestration/temporal-java.values.yaml
           --set volumes[0].name=hl7logs
           --set volumes[0].hostPath.path=${{ github.workspace }}/hl7logs
+          --set server.config.namespaces.create=true
       - name: Launch temporal-python
         shell: bash
         run:
-          helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml
-      - name: Debug
+          helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml --set server.config.namespaces.create=true
+      - name: Wait for temporal startup
         shell: bash
         run: |
-          sleep 5s
+          kubectl wait --for=condition=complete --timeout=300s job/temporal-schema-1
+      - name: Logging
+        shell: bash
+        run: |
           kubectl get events
           kubectl describe pods
-      - name: Debug (orchestration-workers)
+      - name: Logging (namespace = orchestration-workers)
         shell: bash
         run: |
           kubectl get events -n orchestration-workers
           kubectl describe pods -n orchestration-workers
           kubectl -n orchestration-workers logs -l app.kubernetes.io/name=temporal-java
-      - name: Wait for temporal startup
-        shell: bash
-        run: |
-          kubectl wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: Launch temporal workflow
         shell: bash
         run: |
