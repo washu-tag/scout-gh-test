@@ -12,8 +12,8 @@ env:
   JAVA_VERSION: '21'
   REGISTRY: 'ghcr.io'
   DELTA_LAKE_PATH: 's3://synthetic/delta/hl7'
-  HL7_OUTPUT_PATH: '/tmp/hl7'
-  SCRATCH_PATH: '/tmp/scratch'
+  HL7_OUTPUT_PATH: 's3://test/orchestration/hl7'
+  SCRATCH_PATH: 's3://test/orchestration/scratch'
 
 jobs:
   deploy:
