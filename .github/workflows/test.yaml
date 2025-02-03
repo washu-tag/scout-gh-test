@@ -25,6 +25,7 @@ jobs:
         with:
           k3s-channel: latest
           traefik-enabled: false
+          docker-enabled: true
       - name: Deploy helm chart to kubernetes
         shell: bash
         run: |
@@ -37,9 +38,7 @@ jobs:
         shell: bash
         run: |
           docker build -t local/temporal-java:latest orchestration/temporal-java/
-          docker save local/temporal-java:latest | k3s ctr images import -
           docker build -t local/temporal-python:latest orchestration/temporal-python/
-          docker save local/temporal-python:latest | k3s ctr images import -
       - name: Prepare Temporal
         shell: bash
         run: |
