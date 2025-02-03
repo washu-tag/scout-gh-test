@@ -62,6 +62,7 @@ jobs:
       - name: Launch temporal workflow
         shell: bash
         run: |
+          docker images
           jsonresp=$(kubectl exec -i service/temporal-admintools -- temporal workflow start \
           --task-queue ingest-hl7-log \
           --type IngestHl7LogWorkflow \
