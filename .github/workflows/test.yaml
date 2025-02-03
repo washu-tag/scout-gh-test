@@ -37,7 +37,9 @@ jobs:
         shell: bash
         run: |
           docker build -t local/temporal-java:latest orchestration/temporal-java/
+          docker save local/temporal-java:latest | k3s ctr images import -
           docker build -t local/temporal-python:latest orchestration/temporal-python/
+          docker save local/temporal-python:latest | k3s ctr images import -
       - name: Prepare Temporal
         shell: bash
         run: |
@@ -58,11 +60,11 @@ jobs:
       - name: Wait for temporal startup
         shell: bash
         run: |
+          docker images
           kubectl wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: Launch temporal workflow
         shell: bash
         run: |
-          docker images
           jsonresp=$(kubectl exec -i service/temporal-admintools -- temporal workflow start \
           --task-queue ingest-hl7-log \
           --type IngestHl7LogWorkflow \
