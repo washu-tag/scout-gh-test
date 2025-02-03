@@ -74,4 +74,5 @@ jobs:
           echo "Parsed runId for workflow: ${runid}"
           echo "Parsed workflowId for workflow: ${workflowid}"
           sleep 30s
-          kubectl exec -i service/temporal-admintools -- temporal workflow show -r $runid -w $workflowid
+          kubectl exec -i service/temporal-admintools -- temporal workflow show --run-id $runid --workflow-id $workflowid
+          kubectl exec -i service/temporal-admintools -- temporal workflow describe --workflow-id $workflowid
