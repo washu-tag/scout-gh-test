@@ -78,5 +78,5 @@ jobs:
           kubectl exec -i service/temporal-admintools -- temporal workflow show --run-id $runid --workflow-id $workflowid
           echo "'describe' results:"
           kubectl exec -i service/temporal-admintools -- temporal workflow describe --workflow-id $workflowid
-          echo "'trace' results:"
-          kubectl exec -i service/temporal-admintools -- temporal workflow trace --run-id $runid --workflow-id $workflowid
+          echo "logs?"
+          kubectl -n orchestration-workers logs deployment/temporal-java
