@@ -31,13 +31,15 @@ kubectl apply -f grafana-pv.yaml -n grafana
 kubectl apply -f grafana-pvc.yaml -n grafana
 ```
 
-(Optional) To build the dashboard configmaps and output to stdout:
+(Optional) If using the Slack contact point for alerts, `alerts/contact-points/slack-contact-point.json`, then replace the `SLACK_TOKEN` and `SLACK_RECIPIENT` values in the file with your Slack API token and channel id respectively. See more details below.
+
+(Optional) To build the dashboard and alert configmaps and secrets and output them to stdout:
 
 ```bash
 kubectl kustomize .
 ```
 
-Build and deploy the dashboard configmaps:
+Build and deploy the dashboard and alert configmaps and secrets:
 
 ```bash
 kubectl apply -k . -n grafana
@@ -67,6 +69,13 @@ The login page is disabled and allows anonymous access with the default role of 
 
 Any changes to the Grafana configuration can be made in the `values.yaml` file. The Grafana UI can also be used to make changes to the configuration but ideally the `values.yaml` file should be used to make changes. 
 
-## Working with Dashboards
+## Provisioning Dashboards and Alerts
 
-Dashboards are stored as JSON files and can be managed with Git. Unfortunately, the Grafana UI doesn't support Git integration. Grafana is setup to persist between restarts, so you won't lose your dashboards if the pod is restarted. But some core dashboards we will want to manage with Git. To do this, dashboards are developed in the Grafana UI, exported as JSON, and then stored in the `dashboards` directory. The `kustomization.yaml` file will build the ConfigMap for the dashboards and the Grafana sidecar will load the dashboards into Grafana. To save or update a dashboard in our Git repository, export the dashboard as JSON and save it in the `dashboards` directory. If it's a new dashboard, update the `kustomization.yaml` file to include the new dashboard. The redeploy the dashboard config maps with `kubectl apply -k . -n grafana`.
+Dashboards and alerts are stored as JSON files which we can be manage with Git. Unfortunately, the Grafana UI doesn't support Git integration. Grafana is setup to persist between restarts, so you won't lose your dashboards or alerts if the pod is restarted or the helm chart is uninstalled. But some core dashboards and alerts we will want to manage with Git. To do this, dashboards and alerts are developed in the Grafana UI, exported as JSON, and then stored in the `dashboards` or `alerts` directory. The `kustomization.yaml` file will build the ConfigMap for the dashboards and alerts and the Grafana sidecar will load them into Grafana. To save or update a dashboard in our Git repository, export the dashboard as JSON and save it in the `dashboards` directory. If it's a new dashboard or alert, update the `kustomization.yaml` file to include the new JSON file. Then redeploy the config maps with `kubectl apply -k . -n grafana`.
+
+Note the JSON objects for dashboards and alerts contain a `uid`. If adding a new dashboards or alert JSON, it is helpful to set this to a human readable value so that it is easier for us to track in Git and log files.
+
+### Slack Alerts
+
+Grafana documentation for [Configure Slack for Alerting](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/configure-slack/#configure-slack-for-alerting) gives the option of using a Slack App + API Token or a Webhook. We are using the token method with the scope set to`chat:write`.
+After obtaining the token and channel id, you can replace the `SLACK_TOKEN` and `SLACK_RECIPIENT` values in the `alerts/contact-points/slack-contact-point.json` file respectively. The Slack contact point will be deployed as a secret when running `kubectl apply -k . -n grafana`.
