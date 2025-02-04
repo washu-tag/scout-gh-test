@@ -1,0 +1,10 @@
+---
+
+- name: Hello World Playbook
+  connection: localhost
+  gather_facts: false
+  hosts: all
+  tasks:
+    - name: Log
+      debug:
+        msg: "Hello world from {{ ansible_net_hostname }}"

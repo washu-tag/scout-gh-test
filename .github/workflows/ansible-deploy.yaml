@@ -1,0 +1,16 @@
+name: Ansible Test
+
+on:
+  push:
+    branches:
+      - ansible
+
+jobs:
+  ansible-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.1
+
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook --connection=local --inventory 127.0.0.1, hello_world_playbook.yml
