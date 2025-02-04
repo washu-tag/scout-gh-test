@@ -1,7 +1,7 @@
 ---
 
 - name: Hello World Playbook
-  connection: localhost
+  connection: local
   hosts: all
   tasks:
     - name: Log
