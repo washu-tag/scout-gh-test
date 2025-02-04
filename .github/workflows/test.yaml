@@ -37,7 +37,7 @@ jobs:
       - name: Build images
         shell: bash
         run: |
-          docker build -t local/temporal-java:latest orchestration/temporal-java/
+          docker build -t local/temporal-java:latest orchestration/temporal-java/ # when this job is brought into the main scout repo, this "Build images" step should be replaced with pulling the tar archive images stored as workflow artifacts.
           docker build -t local/temporal-python:latest orchestration/temporal-python/
       - name: Prepare Temporal
         shell: bash
@@ -52,11 +52,10 @@ jobs:
           -f helm/orchestration/temporal-java.values.yaml
           --set volumes[0].name=hl7logs
           --set volumes[0].hostPath.path=${{ github.workspace }}/hl7logs
-          --set server.config.namespaces.create=true
       - name: Launch temporal-python
         shell: bash
         run:
-          helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml --set server.config.namespaces.create=true
+          helm upgrade --install -n orchestration-workers temporal-python helm/orchestration/temporal-worker -f helm/orchestration/temporal-python.values.yaml
       - name: Wait for temporal startup
         shell: bash
         run: |
