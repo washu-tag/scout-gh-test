@@ -1,7 +1,7 @@
 ---
 
 - name: Hello World Playbook
-  connection: localhost
+  connection: ansible.netcommon.network_cli
   gather_facts: false
   hosts: all
   tasks:
