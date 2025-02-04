@@ -1,9 +1,9 @@
 ---
 
 - name: Hello World Playbook
-  connection: ansible.netcommon.network_cli
+  connection: localhost
   hosts: all
   tasks:
     - name: Log
       debug:
-        msg: "Hello world from {{ ansible_net_hostname }}"
+        msg: "Hello world from ansible :)"
