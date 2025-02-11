@@ -3,6 +3,11 @@ name: Ansible test
 on:
   push:
 
+env:
+  JAVA_DIST: 'zulu'
+  JAVA_VERSION: '21'
+  REGISTRY: ghcr.io
+
 jobs:
   build-and-upload-artifact:
     runs-on: ubuntu-latest
