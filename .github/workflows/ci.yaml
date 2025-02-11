@@ -23,8 +23,7 @@ jobs:
         shell: bash
         run: |
           ls -lrt /usr/local/bin
-          mkdir /usr/local/bin/hello
-          chmod 777 /usr/local/bin
+          whoami
       - name: 'Install k3s'
         shell: bash
         run:

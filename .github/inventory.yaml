@@ -17,6 +17,7 @@ k3s_cluster:
     slack_channel_id: ''
     base_dir: '/home/runner/work/scout'
     scout_repo_dir: '{{ base_dir }}/scout'
+    k3s_install_dir: '/home/runner/work/k3s'
     k3s_server:
       docker: true
 
