@@ -18,7 +18,7 @@
         mode: '0755'
     - name: Kube config
       kubernetes.core.k8s:
-        kubeconfig: {{ kubeconfig_yaml }}
+        kubeconfig: '{{ kubeconfig_yaml }}'
 
   roles:
     - role: xanmanning.k3s
