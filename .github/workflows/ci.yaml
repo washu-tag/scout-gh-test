@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           which ansible-playbook
-          cd ansible && sudo ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Install helm and helm diff'
         shell: bash
         run:
