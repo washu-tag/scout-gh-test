@@ -26,7 +26,8 @@ jobs:
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/scout.yaml
       - name: 'Install k3s'
         shell: bash
-        run:
+        run: |
+          export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Install helm and helm diff'
         shell: bash
