@@ -19,7 +19,7 @@ jobs:
       - name: 'ansible-galaxy dependencies'
         shell: bash
         run:
-          ansible-galaxy install -r collections/requirements.yaml
+          cd ansible && ansible-galaxy install -r collections/requirements.yaml
       - name: 'Install k3s'
         shell: bash
         run:
