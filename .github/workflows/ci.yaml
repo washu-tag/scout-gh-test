@@ -13,8 +13,9 @@ jobs:
       - uses: actions/checkout@v4.2.1
       - name: 'Become root'
         shell: bash
-        run:
+        run: |
           sudo su
+          whoami
       - name: 'Prepare inventory.yaml'
         shell: bash
         run:
