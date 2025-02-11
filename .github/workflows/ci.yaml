@@ -21,7 +21,10 @@ jobs:
           cd ansible && ansible-galaxy install -r collections/requirements.yaml
       - name: inspect
         shell: bash
-        run: ls -lrt /usr/local/bin
+        run: |
+          ls -lrt /usr/local/bin
+          mkdir /usr/local/bin/hello
+          chmod 777 /usr/local/bin
       - name: 'Install k3s'
         shell: bash
         run:
