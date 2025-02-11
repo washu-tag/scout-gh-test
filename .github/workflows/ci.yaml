@@ -22,7 +22,7 @@ jobs:
       - name: 'Install k3s'
         shell: bash
         run:
-          cd ansible && ansible-playbook --become-user -vvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
+          cd ansible && ansible-playbook --become-user root -vvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Install helm and helm diff'
         shell: bash
         run:
