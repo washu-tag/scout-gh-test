@@ -14,7 +14,7 @@ jobs:
       - name: 'Become root'
         shell: bash
         run: |
-          sudo su
+          sudo -i
           whoami
       - name: 'Prepare inventory.yaml'
         shell: bash
