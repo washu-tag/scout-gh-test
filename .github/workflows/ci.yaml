@@ -23,6 +23,7 @@ jobs:
         shell: bash
         run: |
           sudo chmod 777 /usr/local/bin
+          sudo chown runner /usr/local/bin
           ls -lrt /usr/local/bin
           whoami
       - name: 'Install k3s'
