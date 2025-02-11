@@ -36,16 +36,16 @@ jobs:
       - name: 'Install helm and helm diff'
         shell: bash
         run:
-          cd ansible && ansible-playbook -v -i inventory.yaml --diff playbooks/helm.yaml
+          cd ansible && /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/helm.yaml
       - name: 'Clone scout'
         shell: bash
         run:
-          cd ansible && ansible-playbook -v -i inventory.yaml --diff playbooks/scout.yaml
+          cd ansible && /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/scout.yaml
       - name: 'Install minio'
         shell: bash
         run:
-          cd ansible && ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
+          cd ansible && /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
       - name: 'Install orchestrator'
         shell: bash
         run:
-          cd ansible && ansible-playbook -v -i inventory.yaml --diff playbooks/orchestrator.yaml
+          cd ansible && /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/orchestrator.yaml
