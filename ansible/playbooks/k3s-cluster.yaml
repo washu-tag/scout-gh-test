@@ -16,9 +16,6 @@
         path: '{{ base_dir }}'
         state: directory
         mode: '0755'
-    - name: Kube config
-      kubernetes.core.k8s:
-        kubeconfig: '{{ kubeconfig_yaml }}'
 
   roles:
     - role: xanmanning.k3s
@@ -27,6 +24,7 @@
     - name: Add storage class
       kubernetes.core.k8s:
         state: present
+        kubeconfig: '{{ kubeconfig_yaml }}'
         src: '{{ scout_repo_dir }}/helm/storageclass.yaml'
         wait: yes
         wait_timeout: 60
