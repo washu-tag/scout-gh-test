@@ -19,19 +19,19 @@ jobs:
         shell: bash
         run:
           cd ansible && ansible-galaxy install -r collections/requirements.yaml
-      - name: inspect
-        shell: bash
-        run: |
-          sudo chmod 777 /usr/local/bin
-          sudo chown runner /usr/local/bin
-          sudo mkdir /etc/rancher
-          sudo chown runner /etc/rancher
-          sudo mkdir /var/lib/rancher
-          sudo chown runner /var/lib/rancher
+      #- name: inspect
+      #  shell: bash
+      #  run: |
+      #    sudo chmod 777 /usr/local/bin
+      #    sudo chown runner /usr/local/bin
+      #    sudo mkdir /etc/rancher
+      #    sudo chown runner /etc/rancher
+      #    sudo mkdir /var/lib/rancher
+      #    sudo chown runner /var/lib/rancher
       - name: 'Install k3s'
         shell: bash
         run:
-          cd ansible && ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
+          cd ansible && sudo ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Install helm and helm diff'
         shell: bash
         run:
