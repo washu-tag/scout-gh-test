@@ -4,12 +4,10 @@ on:
   push:
 
 env:
-  JAVA_DIST: 'zulu'
-  JAVA_VERSION: '21'
   REGISTRY: ghcr.io
 
 jobs:
-  lint:
+  ansible-install:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.1
@@ -18,3 +16,27 @@ jobs:
         run: |
           cd ansible
           cp ../.github/inventory.yaml .
+      - name: 'ansible-galaxy dependencies'
+        shell: bash
+        run:
+          ansible-galaxy install -r collections/requirements.yaml
+      - name: 'Install k3s'
+        shell: bash
+        run:
+          ansible-playbook -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
+      - name: 'Install helm and helm diff'
+        shell: bash
+        run:
+          ansible-playbook -v -i inventory.yaml --diff playbooks/helm.yaml
+      - name: 'Clone scout'
+        shell: bash
+        run:
+          ansible-playbook -v -i inventory.yaml --diff playbooks/scout.yaml
+      - name: 'Install minio'
+        shell: bash
+        run:
+          ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
+      - name: 'Install orchestrator'
+        shell: bash
+        run:
+          ansible-playbook -v -i inventory.yaml --diff playbooks/orchestrator.yaml
