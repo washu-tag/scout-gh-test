@@ -19,10 +19,10 @@ jobs:
         shell: bash
         run:
           cd ansible && ansible-galaxy install -r collections/requirements.yaml
-      - name: 'Install k3s'
-        shell: bash
-        run:
-          cd ansible && ansible-playbook --become-user root -vvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
+      #- name: 'Install k3s'
+      #  shell: bash
+      #  run:
+      #    cd ansible && ansible-playbook --become-user root -vvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Install helm and helm diff'
         shell: bash
         run:
