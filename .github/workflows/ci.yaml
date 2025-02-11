@@ -4,10 +4,39 @@ on:
   push:
 
 jobs:
+  build-and-upload-artifact:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Checkout GitHub Action
+        uses: actions/checkout@v4.2.1
+      - name: 'Build/Cache Image - temporal-java'
+        uses: ./.github/actions/docker-build-cache
+        with:
+          subproject: orchestration/temporal-java
+          image-name: temporal-java
+      - name: 'Build/Cache Image - temporal-python'
+        uses: ./.github/actions/docker-build-cache
+        with:
+          subproject: orchestration/temporal-python
+          image-name: temporal-python
   ansible-install:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.1
+      - name: 'Pull and Label Image - temporal-java'
+        uses: ./.github/actions/docker-tag-local
+        with:
+          image-name: temporal-java
+      - name: 'Pull and Label Image - temporal-python'
+        uses: ./.github/actions/docker-tag-local
+        with:
+          image-name: temporal-python
       - name: 'Prepare inventory.yaml'
         shell: bash
         run:
@@ -27,8 +56,6 @@ jobs:
       - name: 'Install k3s'
         shell: bash
         run: |
-          export K8S_AUTH_KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-          export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Install helm and helm diff'
         shell: bash
