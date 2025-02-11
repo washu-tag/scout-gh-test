@@ -19,7 +19,7 @@ jobs:
       - name: 'ansible-galaxy dependencies'
         shell: bash
         run:
-          cd ansible && ansible-galaxy install -r collections/requirements.yaml
+          cd ansible && sudo /opt/pipx_bin/ansible-galaxy install -r collections/requirements.yaml
       #- name: inspect
       #  shell: bash
       #  run: |
@@ -32,7 +32,6 @@ jobs:
       - name: 'Install k3s'
         shell: bash
         run: |
-          which ansible-playbook
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Install helm and helm diff'
         shell: bash
