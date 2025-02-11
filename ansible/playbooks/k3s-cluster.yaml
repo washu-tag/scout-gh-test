@@ -2,7 +2,6 @@
 - name: Build a cluster with a single control node
   hosts: server
   become: yes
-  sudo: yes
   vars:
     server_ip: "{{ hostvars[groups['server'][0]].ip }}"
     k3s_server:
