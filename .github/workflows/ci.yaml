@@ -75,9 +75,9 @@ jobs:
         shell: bash
         run: |
           docker images
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/orchestrator.yaml || kubectl -n temporal get events
-          kubectl -n temporal describe nodes
-          kubectl -n temporal describe pods
-          kubectl -n orchestration-workers get events
-          kubectl -n orchestration-workers describe nodes
-          kubectl -n orchestration-workers describe pods
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/orchestrator.yaml || sudo kubectl -n temporal get events
+          sudo kubectl -n temporal describe nodes
+          sudo kubectl -n temporal describe pods
+          sudo kubectl -n orchestration-workers get events
+          sudo kubectl -n orchestration-workers describe nodes
+          sudo kubectl -n orchestration-workers describe pods
