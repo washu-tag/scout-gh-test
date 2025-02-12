@@ -1,6 +1,6 @@
 nameOverride: temporal-java
 image:
-  repository: local.local/washu-tag/temporal-java
+  repository: local/washu-tag/temporal-java
   tag: latest
 envFrom:
   - secretRef:
