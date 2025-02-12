@@ -73,5 +73,6 @@ jobs:
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
       - name: 'Install orchestrator'
         shell: bash
-        run:
+        run: |
+          docker images
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/orchestrator.yaml
