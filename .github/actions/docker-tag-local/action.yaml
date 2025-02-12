@@ -15,4 +15,4 @@ runs:
     - name: Label image
       shell: bash
       run: |
-        docker tag $(docker load --input ${{ runner.temp }}/${{ inputs.image-name }}.tar | sed -e 's/.*: //g') local/washu-tag/${{ inputs.image-name }} | sudo k3s ctr images import - 
+        sudo k3s ctr images import --base-name local/washu-tag/${{ inputs.image-name }} ${{ runner.temp }}/${{ inputs.image-name }}.tar
