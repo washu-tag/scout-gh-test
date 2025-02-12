@@ -15,4 +15,4 @@ runs:
     - name: Label image
       shell: bash
       run: |
-        sudo k3s ctr images import --index-name local/washu-tag/${{ inputs.image-name }} ${{ runner.temp }}/${{ inputs.image-name }}.tar
+        sudo k3s ctr -n k8s.io images import --index-name docker.io/local/washu-tag/${{ inputs.image-name }}:latest ${{ runner.temp }}/${{ inputs.image-name }}.tar
