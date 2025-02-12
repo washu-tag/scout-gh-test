@@ -85,4 +85,4 @@ jobs:
       - name: 'Launch temporal ingestion'
         shell: bash
         run:
-          bash .github/launch_temporal_extraction.sh
+          sudo bash .github/launch_temporal_extraction.sh
