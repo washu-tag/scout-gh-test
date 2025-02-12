@@ -35,14 +35,6 @@ jobs:
     needs: [build-and-upload-artifact]
     steps:
       - uses: actions/checkout@v4.2.1
-      - name: 'Pull and Label Image - temporal-java'
-        uses: ./.github/actions/docker-tag-local
-        with:
-          image-name: temporal-java
-      - name: 'Pull and Label Image - temporal-python'
-        uses: ./.github/actions/docker-tag-local
-        with:
-          image-name: temporal-python
       - name: 'Prepare inventory.yaml'
         shell: bash
         run:
@@ -63,6 +55,14 @@ jobs:
         shell: bash
         run: |
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
+      - name: 'Pull and Label Image - temporal-java'
+        uses: ./.github/actions/docker-tag-local
+        with:
+          image-name: temporal-java
+      - name: 'Pull and Label Image - temporal-python'
+        uses: ./.github/actions/docker-tag-local
+        with:
+          image-name: temporal-python
       - name: 'Install helm and helm diff'
         shell: bash
         run:
