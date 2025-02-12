@@ -82,7 +82,8 @@ jobs:
           sudo kubectl -n orchestration-workers get events
           sudo kubectl -n orchestration-workers describe nodes
           sudo kubectl -n orchestration-workers describe pods
-          sudo kubectl --all-namespaces get logs
+          sudo kubectl -n orchestration-workers logs deployment/temporal-java
+          sudo kubectl -n orchestration-workers logs deployment/temporal-python
       - name: 'Launch temporal ingestion'
         shell: bash
         run:
