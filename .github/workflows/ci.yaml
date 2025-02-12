@@ -75,6 +75,7 @@ jobs:
         shell: bash
         run: |
           docker images
+          sudo k3s ctr images ls
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/orchestrator.yaml || sudo kubectl -n temporal get events
           sudo kubectl -n temporal describe nodes
           sudo kubectl -n temporal describe pods
