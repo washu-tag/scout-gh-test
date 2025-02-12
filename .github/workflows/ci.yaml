@@ -74,4 +74,4 @@ jobs:
       - name: 'Install orchestrator'
         shell: bash
         run:
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/orchestrator.yaml
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/orchestrator.yaml
