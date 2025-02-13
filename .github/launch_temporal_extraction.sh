@@ -17,6 +17,7 @@ for ((i = 0; i <= max_wait; ++i)); do
 
     sleep 1s
     if [[ i -eq max_wait ]]; then
+        sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json
         exit 25
     fi
 done
