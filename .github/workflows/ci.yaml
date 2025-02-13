@@ -73,6 +73,9 @@ jobs:
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
           sudo kubectl describe pod -l v1.min.io/tenant=minio-scout -n minio-scout
           sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout
+          sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout -c minio
+          sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout -c validate-arguments
+          sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout -c sidecar
           sudo kubectl get pv
           sudo kubectl get pvc -n minio-scout
       - name: 'Install orchestrator'

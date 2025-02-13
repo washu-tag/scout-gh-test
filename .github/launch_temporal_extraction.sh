@@ -20,6 +20,9 @@ for ((i = 0; i <= max_wait; ++i)); do
         echo "DEBUGGING:"
         sudo kubectl describe pod -l v1.min.io/tenant=minio-scout -n minio-scout
         sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout
+        sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout -c minio
+        sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout -c validate-arguments
+        sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout -c sidecar
         sudo kubectl get pv
         sudo kubectl get pvc -n minio-scout
         sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json | jq -r '.[] | "\(.execution.workflowId) \(.execution.runId)"' | while read workflowId runId; do
