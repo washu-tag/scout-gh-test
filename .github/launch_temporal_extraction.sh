@@ -19,7 +19,7 @@ for ((i = 0; i <= max_wait; ++i)); do
     if [[ i -eq max_wait ]]; then
         sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json
         sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json | jq -r '.[] | "\(.execution.workflowId) \(.execution.runId)"' | while read workflowId runId; do
-            kubectl exec -n temporal -it service/temporal-admintools -- temporal workflow show --workflow-id $workflowId --run-id $runId
+            kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow show --workflow-id $workflowId --run-id $runId
         done
         exit 25
     fi
