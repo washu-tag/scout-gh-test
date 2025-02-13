@@ -74,16 +74,8 @@ jobs:
       - name: 'Install orchestrator'
         shell: bash
         run: |
-          docker images
-          sudo k3s ctr images ls
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/orchestrator.yaml || sudo kubectl -n temporal get events
-          sudo kubectl -n temporal describe nodes
-          sudo kubectl -n temporal describe pods
-          sudo kubectl -n orchestration-workers get events
-          sudo kubectl -n orchestration-workers describe nodes
-          sudo kubectl -n orchestration-workers describe pods
-          sudo kubectl -n orchestration-workers logs deployment/temporal-java
-          sudo kubectl -n orchestration-workers logs deployment/temporal-python
+          sudo kubectl wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: 'Launch temporal ingestion'
         shell: bash
         run:
