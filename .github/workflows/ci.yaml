@@ -50,11 +50,11 @@ jobs:
       - name: 'Clone scout'
         shell: bash
         run:
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/scout.yaml
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/scout.yaml
       - name: 'Install k3s'
         shell: bash
         run: |
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -v -i inventory.yaml --diff playbooks/k3s-cluster.yaml
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Pull and Label Image - temporal-java'
         uses: ./.github/actions/docker-tag-local
         with:
@@ -66,11 +66,11 @@ jobs:
       - name: 'Install helm and helm diff'
         shell: bash
         run:
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/helm.yaml
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/helm.yaml
       - name: 'Install minio'
         shell: bash
         run: |
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/minio.yaml
           sudo kubectl describe pod -l v1.min.io/tenant=minio-scout -n minio-scout
           sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout
           sudo kubectl logs -l v1.min.io/tenant=minio-scout -n minio-scout -c minio
@@ -81,7 +81,7 @@ jobs:
       - name: 'Install orchestrator'
         shell: bash
         run: |
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvvv -i inventory.yaml --diff playbooks/orchestrator.yaml || sudo kubectl -n temporal get events
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/orchestrator.yaml || sudo kubectl -n temporal get events
           sudo kubectl -n temporal wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: 'Launch temporal ingestion'
         shell: bash
