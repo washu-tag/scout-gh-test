@@ -17,8 +17,10 @@ for ((i = 0; i <= max_wait; ++i)); do
 
     sleep 1s
     if [[ i -eq max_wait ]]; then
+        sudo kubectl -n orchestration-workers logs deployment/temporal-java
         sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json
         sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json | jq -r '.[] | "\(.execution.workflowId) \(.execution.runId)"' | while read workflowId runId; do
+            echo "Workflow id $workflowId and run id $runId"
             sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow show --workflow-id $workflowId --run-id $runId
         done
         exit 25
