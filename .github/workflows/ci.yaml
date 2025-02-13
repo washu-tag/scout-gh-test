@@ -69,8 +69,12 @@ jobs:
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/helm.yaml
       - name: 'Install minio'
         shell: bash
-        run:
+        run: |
           cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
+          sudo kubectl describe pod minio-scout-pool-0-0 -n minio-scout
+          sudo kubectl logs minio-scout-pool-0-0 -n minio-scout
+          sudo kubectl get pv
+          sudo kubectl get pvc -n minio-scout
       - name: 'Install orchestrator'
         shell: bash
         run: |
