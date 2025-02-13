@@ -95,7 +95,7 @@ jobs:
       - name: 'Run tests'
         shell: bash
         run: |
-          minioIp=$(kubectl get pod -l v1.min.io/tenant=minio-scout -n minio-scout -o json | jq '.items[0].status.hostIP' -r)
+          minioIp=$(sudo kubectl get pod -l v1.min.io/tenant=minio-scout -n minio-scout -o json | jq '.items[0].status.hostIP' -r)
           sed -i "s/\$IP/$minioIp/g" .github/test_config_template.json
           cp .github/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
