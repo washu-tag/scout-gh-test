@@ -20,7 +20,7 @@
       "Logger": [
         {
           "name": "org.apache.spark",
-          "level": "WARN",
+          "level": "TRACE",
           "AppenderRef": [
             {
               "ref": "CONSOLE"
@@ -29,7 +29,7 @@
         },
         {
           "name": "org.sparkproject",
-          "level": "WARN",
+          "level": "TRACE",
           "AppenderRef": [
             {
               "ref": "CONSOLE"
@@ -41,13 +41,13 @@
           "level": "WARN",
           "AppenderRef": [
             {
-              "ref": "CONSOLE"
+              "ref": "TRACE"
             }
           ]
         },
         {
           "name": "org.apache.parquet",
-          "level": "WARN",
+          "level": "TRACE",
           "AppenderRef": [
             {
               "ref": "CONSOLE"

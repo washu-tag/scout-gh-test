@@ -95,6 +95,7 @@ jobs:
       - name: 'Run tests'
         shell: bash
         run: |
+          
           cp .github/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
           ./gradlew test
