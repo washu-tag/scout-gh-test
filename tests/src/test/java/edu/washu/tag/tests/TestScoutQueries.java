@@ -58,7 +58,6 @@ public class TestScoutQueries extends BaseTest {
         .master("local")
         .withExtensions(new DeltaSparkSessionExtension())
         .config(config.getSparkConfig())
-        .config("spark.log.level", "DEBUG")
         .getOrCreate();
     spark
         .read()
