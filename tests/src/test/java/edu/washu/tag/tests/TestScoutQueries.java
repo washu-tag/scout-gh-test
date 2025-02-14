@@ -53,7 +53,7 @@ public class TestScoutQueries extends BaseTest {
   }
 
   private SparkSession initSparkSession() {
-    logger.info("ABOUT TO INIT SPARK SESSION. TRYING TO ")
+    logger.info("ABOUT TO INIT SPARK SESSION. TRYING TO CONNECT TO: {}", config.getDeltaLakeUrl());
     final SparkSession spark = SparkSession.builder()
         .appName("TestClient")
         .master("local")
