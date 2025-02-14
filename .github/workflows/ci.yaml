@@ -95,7 +95,7 @@ jobs:
       - name: 'Run tests'
         shell: bash
         run: |
-          minioIp=$(kubectl get services/minio -n minio-scout -o json | jq '.status.loadBalancer.ingress[0].ip')
+          minioIp=$(sudo kubectl get services/minio -n minio-scout -o json | jq '.status.loadBalancer.ingress[0].ip')
           sed -i "s/\$IP/$minioIp/g" .github/test_config_template.json
           cp .github/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
