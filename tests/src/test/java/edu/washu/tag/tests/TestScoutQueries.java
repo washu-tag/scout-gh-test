@@ -53,6 +53,7 @@ public class TestScoutQueries extends BaseTest {
   }
 
   private SparkSession initSparkSession() {
+    logger.info("ABOUT TO INIT SPARK SESSION. TRYING TO ")
     final SparkSession spark = SparkSession.builder()
         .appName("TestClient")
         .master("local")
