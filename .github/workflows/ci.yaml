@@ -100,18 +100,6 @@ jobs:
           cp .github/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
           ./gradlew test
-      - name: 'Repeat tests?'
-        shell: bash
-        if: always()
-        run: |
-          cd tests
-          ./gradlew test
-      - name: 'Repeat tests again?'
-        shell: bash
-        if: always()
-        run: |
-          cd tests
-          ./gradlew test
       - name: Test Summary
         uses: test-summary/action@v2.4
         if: always()
@@ -123,3 +111,23 @@ jobs:
         if: always()
         run: |
           sudo kubectl -n orchestration-workers logs deployment/temporal-java
+      - name: Install MinIO Client
+        shell: bash
+        if: always()
+        run: |
+          curl https://dl.min.io/client/mc/release/linux-amd64/mc \
+            --create-dirs \
+            -o $HOME/minio-binaries/mc
+          chmod +x $HOME/minio-binaries/mc
+
+      - name: Configure MinIO Client
+        shell: bash
+        if: always()
+        run: |
+          $HOME/minio-binaries/mc alias set local $ip minio minio1234
+
+      - name: List Objects
+        shell: bash
+        if: always()
+        run: |
+          $HOME/minio-binaries/mc ls --recursive local/lake/orchestration/hl7 | wc -l
