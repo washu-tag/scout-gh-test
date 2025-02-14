@@ -124,6 +124,7 @@ jobs:
         shell: bash
         if: always()
         run: |
+          ip=$(sudo kubectl get services/minio -n minio-scout -o json | jq '.status.loadBalancer.ingress[0].ip' -r)
           $HOME/minio-binaries/mc alias set local $ip minio minio1234
 
       - name: List Objects
