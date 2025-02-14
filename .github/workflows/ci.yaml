@@ -95,7 +95,9 @@ jobs:
       - name: 'Run tests'
         shell: bash
         run: |
-          
+          sudo kubectl port-forward -n minio service/minio 9000 >/dev/null
+          localIp=$(hostname --all-ip-addresses | sed 's/ .*//g')
+          sed -i "s/\$IP/$localIp/g" .github/test_config_template.json
           cp .github/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
           ./gradlew test
