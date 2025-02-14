@@ -100,15 +100,3 @@ jobs:
           cp .github/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
           ./gradlew test
-      - name: Upload test binary
-        uses: actions/upload-artifact@v4.4.3
-        if: always()
-        with:
-          name: test_binary_${{ matrix.executorId }}.bin
-          path: tests/build/test-results/test/binary/results.bin
-      - name: Upload test XML
-        uses: actions/upload-artifact@v4.4.3
-        if: always()
-        with:
-          name: test_xmls_${{ matrix.executorId }}.zip
-          path: tests/build/test-results/test/TEST-*.xml
