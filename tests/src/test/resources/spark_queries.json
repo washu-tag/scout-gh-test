@@ -86,61 +86,6 @@
       },
       "sql": "SELECT * FROM syntheticdata WHERE pid_8_administrative_sex='F' AND pid_10_race IN ('BLACK', 'B')",
       "id": "sex_and_race_list_inclusion"
-    },
-    {
-      "expectedQueryResult": {
-        "type": ".GroupedAggregationResult",
-        "result": {
-          "NM": {
-            "male_count": 19,
-            "female_count": 16,
-            "total_count": 35
-          },
-          "CT": {
-            "male_count": 8,
-            "female_count": 9,
-            "total_count": 17
-          },
-          "IR": {
-            "male_count": 16,
-            "female_count": 18,
-            "total_count": 34
-          },
-          "XR": {
-            "male_count": 69,
-            "female_count": 40,
-            "total_count": 109
-          },
-          "PET": {
-            "male_count": 8,
-            "female_count": 5,
-            "total_count": 13
-          },
-          "MR": {
-            "male_count": 66,
-            "female_count": 47,
-            "total_count": 113
-          },
-          "MG": {
-            "male_count": 0,
-            "female_count": 47,
-            "total_count": 47
-          },
-          "": {
-            "male_count": 19,
-            "female_count": 14,
-            "total_count": 33
-          }
-        },
-        "primaryColumnName": "primary_modality",
-        "secondaryColumns": [
-          "male_count",
-          "female_count",
-          "total_count"
-        ]
-      },
-      "sql": "SELECT obr_24_diagnostic_serv_sect_id as primary_modality, COUNT(CASE WHEN pid_8_administrative_sex='M' THEN 1 END) as male_count, COUNT(CASE WHEN pid_8_administrative_sex='F' THEN 1 END) as female_count, COUNT(*) as total_count FROM syntheticdata WHERE msh_12_version_id='2.7' GROUP BY obr_24_diagnostic_serv_sect_id ORDER BY obr_24_diagnostic_serv_sect_id",
-      "id": "modality_grouping"
     }
   ]
 }

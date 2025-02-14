@@ -106,3 +106,7 @@ jobs:
         with:
           paths: "tests/**/TEST-*.xml"
           show: "fail, skip"
+      - name: final debug
+        shell: bash
+        run: |
+          sudo kubectl -n orchestration-workers logs deployment/temporal-java
