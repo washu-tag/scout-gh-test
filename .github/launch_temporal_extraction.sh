@@ -8,7 +8,7 @@ done
 
 max_wait=10
 for ((i = 0; i <= max_wait; ++i)); do
-    if sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json | jq '[.[] | select(.taskQueue == "ingest-hl7-log")] | any(.[]; .status == "WORKFLOW_EXECUTION_STATUS_COMPLETED")' -e > /dev/null; then
+    if sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json | jq '[.[] | select(.taskQueue == "ingest-hl7-log")] | all(.[]; .status == "WORKFLOW_EXECUTION_STATUS_COMPLETED")' -e > /dev/null; then
         echo "All workflows completed as expected"
         exit 0
     else
