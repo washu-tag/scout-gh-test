@@ -100,3 +100,9 @@ jobs:
           cp .github/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
           ./gradlew test
+      - name: Test Summary
+        uses: test-summary/action@v2.4
+        if: always()
+        with:
+          paths: "tests/**/TEST-*.xml"
+          show: "fail, skip"
