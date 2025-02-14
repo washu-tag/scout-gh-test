@@ -90,6 +90,15 @@
       },
       "sql": "SELECT * FROM syntheticdata WHERE pid_8_administrative_sex='F' AND pid_10_race IN ('BLACK', 'B')",
       "id": "sex_and_race_list_inclusion"
+    },
+    {
+      "expectedQueryResult": {
+        "type": ".ExactNumberObjectsResult",
+        "expectedNumResults": 800,
+        "additionalValidation": null
+      },
+      "sql": "SELECT * FROM syntheticdata",
+      "id": "all"
     }
   ]
 }
