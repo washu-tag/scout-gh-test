@@ -108,5 +108,6 @@ jobs:
           show: "fail, skip"
       - name: final debug
         shell: bash
+        if: always()
         run: |
           sudo kubectl -n orchestration-workers logs deployment/temporal-java

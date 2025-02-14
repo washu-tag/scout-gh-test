@@ -24,7 +24,9 @@
         "additionalValidation": {
           "type": ".FixedColumnsValidator",
           "fixedColumns": {
-            "zds_1_study_instance_uid": null,
+            "zds_1_study_instance_uid": [
+              null
+            ],
             "msh_12_version_id": [
               "2.4"
             ]
@@ -57,7 +59,9 @@
         "additionalValidation": {
           "type": ".FixedColumnsValidator",
           "fixedColumns": {
-            "orc_2_placer_order_number": null,
+            "orc_2_placer_order_number": [
+              null
+            ],
             "msh_12_version_id": [
               "2.4"
             ]
