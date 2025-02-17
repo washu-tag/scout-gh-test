@@ -1,6 +1,6 @@
 #!/bin/bash
 
-do_wait = 1
+do_wait=1
 for logdate in $(find tests/staging_test_data/hl7 -name '*.log' | xargs -L 1 basename | cut -c1-8 | sort)
 do
     echo "Sending date $logdate to temporal..."
