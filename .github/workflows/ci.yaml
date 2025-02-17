@@ -49,12 +49,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.1
-      - name: debug
-        shell: bash
-        run: |
-          pwd
-          ls
-          exit 5
       - uses: actions/setup-java@v4
         with:
           distribution: ${{ ENV.JAVA_DIST }}
@@ -76,9 +70,9 @@ jobs:
       - name: 'ansible-galaxy dependencies'
         shell: bash
         run: cd ansible && sudo /opt/pipx_bin/ansible-galaxy install -r collections/requirements.yaml
-      - name: 'Clone scout'
+      - name: 'Copy scout'
         shell: bash
-        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/scout.yaml
+        run: cp -r . /var/lib/scout # in CI workflow, we want to use current code, not "main" branch. TODO: don't hardcode path here
       - name: 'Install k3s'
         shell: bash
         run: |
