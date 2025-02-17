@@ -72,11 +72,11 @@ jobs:
         run: cd ansible && sudo /opt/pipx_bin/ansible-galaxy install -r collections/requirements.yaml
       - name: 'Clone scout'
         shell: bash
-        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/scout.yaml -l $$(hostnamectl --static)
+        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/scout.yaml
       - name: 'Install k3s'
         shell: bash
         run: |
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvv -i inventory.yaml --diff playbooks/k3s-cluster.yaml -l $$(hostnamectl --static)
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -vvv -i inventory.yaml --diff playbooks/k3s-cluster.yaml
       - name: 'Push image to k3s - temporal-java'
         uses: ./.github/actions/k3s-image-import
         with:
@@ -87,16 +87,16 @@ jobs:
           image-name: temporal-python
       - name: 'Install helm and helm diff'
         shell: bash
-        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/helm.yaml -l $$(hostnamectl --static)
+        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/helm.yaml
       - name: 'Install minio'
         shell: bash
         run: |
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml -l $$(hostnamectl --static)
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -v -i inventory.yaml --diff playbooks/minio.yaml
           sudo kubectl describe pod -l v1.min.io/tenant=minio-scout -n minio-scout
       - name: 'Install orchestrator'
         shell: bash
         run: |
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/orchestrator.yaml -l $$(hostnamectl --static)
+          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/orchestrator.yaml
           sudo kubectl -n minio-scout wait --for=condition=ready --timeout=300s pod -l v1.min.io/tenant=minio-scout
           sudo kubectl -n temporal wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: 'Launch temporal ingestion'
