@@ -1,6 +1,6 @@
 #!/bin/bash
 
-do_wait=1
+do_wait=True
 for logdate in $(find tests/staging_test_data/hl7 -name '*.log' | xargs -L 1 basename | cut -c1-8 | sort)
 do
     echo "Sending date $logdate to temporal..."
@@ -8,7 +8,7 @@ do
     if $do_wait; then
         echo "Trying to wait to check race condition..."
         sleep 30s
-        do_wait=0
+        do_wait=False
     fi
 done
 
