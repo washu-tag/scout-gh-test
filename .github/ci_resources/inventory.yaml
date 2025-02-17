@@ -17,7 +17,7 @@ k3s_cluster:
     base_dir: '/var/lib'
     scout_repo_dir: '{{ base_dir }}/scout'
     kubeconfig_group: 'root'
-    
+
     # These would only be overwritten for development builds
     temporal_java_helm_values: '{{ scout_repo_dir }}/ci_resources/.github/temporal-java.values.yaml'
     temporal_python_helm_values: '{{ scout_repo_dir }}/ci_resources/.github/temporal-python.values.yaml'

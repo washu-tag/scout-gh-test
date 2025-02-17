@@ -63,20 +63,16 @@ jobs:
       - uses: actions/checkout@v4.2.1
       - name: 'Prepare inventory.yaml'
         shell: bash
-        run:
-          cp .github/ci_resources/inventory.yaml ansible/
+        run: cp .github/ci_resources/inventory.yaml ansible/
       - name: 'Install prerequisites'
         shell: bash
-        run:
-          sudo pip3 install kubernetes
+        run: sudo pip3 install kubernetes
       - name: 'ansible-galaxy dependencies'
         shell: bash
-        run:
-          cd ansible && sudo /opt/pipx_bin/ansible-galaxy install -r collections/requirements.yaml
+        run: cd ansible && sudo /opt/pipx_bin/ansible-galaxy install -r collections/requirements.yaml
       - name: 'Clone scout'
         shell: bash
-        run:
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/scout.yaml
+        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/scout.yaml
       - name: 'Install k3s'
         shell: bash
         run: |
@@ -91,8 +87,7 @@ jobs:
           image-name: temporal-python
       - name: 'Install helm and helm diff'
         shell: bash
-        run:
-          cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/helm.yaml
+        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/helm.yaml
       - name: 'Install minio'
         shell: bash
         run: |
@@ -106,8 +101,7 @@ jobs:
           sudo kubectl -n temporal wait --for=condition=complete --timeout=300s job/temporal-schema-1
       - name: 'Launch temporal ingestion'
         shell: bash
-        run:
-          sudo bash .github/launch_temporal_extraction.sh
+        run: sudo bash .github/launch_temporal_extraction.sh
       - uses: actions/setup-java@v4
         with:
           distribution: ${{ ENV.JAVA_DIST }}
@@ -124,8 +118,8 @@ jobs:
         uses: test-summary/action@v2.4
         if: always()
         with:
-          paths: "tests/**/TEST-*.xml"
-          show: "fail, skip"
+          paths: 'tests/**/TEST-*.xml'
+          show: 'fail, skip'
       - name: Logging (temporal-java)
         shell: bash
         if: always()

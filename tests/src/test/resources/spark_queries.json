@@ -8,9 +8,7 @@
         "additionalValidation": {
           "type": ".FixedColumnsValidator",
           "fixedColumns": {
-            "pid_8_administrative_sex": [
-              "F"
-            ]
+            "pid_8_administrative_sex": ["F"]
           }
         }
       },
@@ -24,12 +22,8 @@
         "additionalValidation": {
           "type": ".FixedColumnsValidator",
           "fixedColumns": {
-            "zds_1_study_instance_uid": [
-              null
-            ],
-            "msh_12_version_id": [
-              "2.4"
-            ]
+            "zds_1_study_instance_uid": [null],
+            "msh_12_version_id": ["2.4"]
           }
         }
       },
@@ -59,12 +53,8 @@
         "additionalValidation": {
           "type": ".FixedColumnsValidator",
           "fixedColumns": {
-            "orc_2_placer_order_number": [
-              null
-            ],
-            "msh_12_version_id": [
-              "2.4"
-            ]
+            "orc_2_placer_order_number": [null],
+            "msh_12_version_id": ["2.4"]
           }
         }
       },
@@ -78,13 +68,8 @@
         "additionalValidation": {
           "type": ".FixedColumnsValidator",
           "fixedColumns": {
-            "pid_8_administrative_sex": [
-              "F"
-            ],
-            "pid_10_race": [
-              "B",
-              "BLACK"
-            ]
+            "pid_8_administrative_sex": ["F"],
+            "pid_10_race": ["B", "BLACK"]
           }
         }
       },
