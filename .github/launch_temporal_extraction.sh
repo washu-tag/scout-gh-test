@@ -1,9 +1,15 @@
 #!/bin/bash
 
+do_wait = 1
 for logdate in $(find tests/staging_test_data/hl7 -name '*.log' | xargs -L 1 basename | cut -c1-8 | sort)
 do
     echo "Sending date $logdate to temporal..."
     sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow start --task-queue ingest-hl7-log --type IngestHl7LogWorkflow --input '{"deltaLakePath":"s3://lake/orchestration/delta/test_data", "hl7OutputPath":"s3://lake/orchestration/hl7", "scratchSpaceRootPath":"s3://lake/orchestration/scratch", "logsRootPath": "/hl7logs", "date": "'$logdate'"}';
+    if $do_wait; then;
+        echo "Trying to wait to check race condition..."
+        sleep 30s
+        do_wait=0
+    fi
 done
 
 max_wait=300
