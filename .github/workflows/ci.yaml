@@ -92,25 +92,6 @@ jobs:
         with:
           distribution: ${{ ENV.JAVA_DIST }}
           java-version: ${{ ENV.JAVA_VERSION }}
-      - name: 'Run tests'
-        shell: bash
-        run: |
-          minioIp=$(sudo kubectl get services/minio -n minio-scout -o json | jq '.status.loadBalancer.ingress[0].ip' -r)
-          sed -i "s/\$IP/$minioIp/g" .github/test_config_template.json
-          cp .github/test_config_template.json tests/src/test/resources/config/local.json
-          cd tests
-          ./gradlew test
-      - name: Test Summary
-        uses: test-summary/action@v2.4
-        if: always()
-        with:
-          paths: "tests/**/TEST-*.xml"
-          show: "fail, skip"
-      - name: final debug
-        shell: bash
-        if: always()
-        run: |
-          sudo kubectl -n orchestration-workers logs deployment/temporal-java
       - name: Install MinIO Client
         shell: bash
         if: always()
@@ -132,3 +113,30 @@ jobs:
         if: always()
         run: |
           $HOME/minio-binaries/mc ls --recursive local/lake/orchestration/hl7 | wc -l
+          mkdir /tmp/minio
+          $HOME/minio-binaries/mc cp -r local/ /tmp/minio/
+          zip -r /tmp/minio.zip /tmp/minio
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: minio_bucket
+          path: /tmp/minio.zip
+      - name: 'Run tests'
+        shell: bash
+        run: |
+          minioIp=$(sudo kubectl get services/minio -n minio-scout -o json | jq '.status.loadBalancer.ingress[0].ip' -r)
+          sed -i "s/\$IP/$minioIp/g" .github/test_config_template.json
+          cp .github/test_config_template.json tests/src/test/resources/config/local.json
+          cd tests
+          ./gradlew test
+      - name: Test Summary
+        uses: test-summary/action@v2.4
+        if: always()
+        with:
+          paths: "tests/**/TEST-*.xml"
+          show: "fail, skip"
+      - name: final debug
+        shell: bash
+        if: always()
+        run: |
+          sudo kubectl -n orchestration-workers logs deployment/temporal-java
