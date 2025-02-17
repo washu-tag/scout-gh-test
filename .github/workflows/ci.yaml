@@ -135,8 +135,13 @@ jobs:
         with:
           paths: "tests/**/TEST-*.xml"
           show: "fail, skip"
-      - name: final debug
+      - name: final debug (temporal-java)
         shell: bash
         if: always()
         run: |
           sudo kubectl -n orchestration-workers logs deployment/temporal-java
+      - name: final debug (temporal-python)
+        shell: bash
+        if: always()
+        run: |
+          sudo kubectl -n orchestration-workers logs deployment/temporal-python
