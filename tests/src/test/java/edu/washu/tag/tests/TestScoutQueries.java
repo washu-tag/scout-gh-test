@@ -7,28 +7,17 @@ import edu.washu.tag.TestQuery;
 import edu.washu.tag.TestQuerySuite;
 import edu.washu.tag.util.FileIOUtils;
 import io.delta.sql.DeltaSparkSessionExtension;
-import org.apache.spark.api.java.function.ForeachFunction;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class TestScoutQueries extends BaseTest {
 
   private final SparkSession spark = initSparkSession();
   private static final TestQuerySuite<?> exportedQueries = readQueries();
   private static final Logger logger = LoggerFactory.getLogger(TestScoutQueries.class);
-  private static final List<String> knownUids = new ArrayList<>();
-  private static final ForeachFunction<Row> rowProc = (row) -> knownUids.add(row.getString(0));
 
   @DataProvider(name = "known_queries")
   public Object[][] knownQueries() {
@@ -40,17 +29,7 @@ public class TestScoutQueries extends BaseTest {
   }
 
   @Test(dataProvider = "known_queries")
-  public void testQueryById(String queryId) throws IOException {
-    spark.sql("SELECT msh_10_message_control_id from syntheticdata").foreach(rowProc);
-    final Map<String, String> sourceData = new ObjectMapper().readValue(new File("uids.json"), Map.class);
-    final Map<String, String> missing = new HashMap<>();
-    for (Map.Entry<String, String> entry : sourceData.entrySet()) {
-      if (!knownUids.contains(entry.getKey())) {
-        missing.put(entry.getKey(), entry.getValue());
-      }
-    }
-
-
+  public void testQueryById(String queryId) {
     final TestQuery<?> query = exportedQueries
         .getTestQueries()
         .stream()
