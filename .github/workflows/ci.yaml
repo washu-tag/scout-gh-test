@@ -75,6 +75,7 @@ jobs:
         run: |
           sudo cp -r . /var/lib/scout # in CI workflow, we want to use current code, not "main" branch. TODO: don't hardcode path here
           ls /var/lib/scout
+          ls -R /var/lib/scout/tests/staging_test_data/hl7
       - name: 'Install k3s'
         shell: bash
         run: |
