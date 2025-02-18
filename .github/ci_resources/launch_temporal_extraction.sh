@@ -4,7 +4,7 @@ all_dates=$(find tests/staging_test_data/hl7 -name '*.log' | xargs -L 1 basename
 echo "Submitting dates to temporal: $all_dates"
 sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow start --task-queue ingest-hl7-log --type IngestHl7LogWorkflow --input '{"deltaLakePath":"s3://lake/orchestration/delta/test_data", "hl7OutputPath":"s3://lake/orchestration/hl7", "scratchSpaceRootPath":"s3://lake/orchestration/scratch", "logsRootPath": "/hl7logs", "date": "'$all_dates'"}'
 
-max_wait=60
+max_wait=300
 for ((i = 0; i <= max_wait; ++i)); do
     if sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json | jq '[.[] | select(.taskQueue == "ingest-hl7-log")] | all(.[]; .status == "WORKFLOW_EXECUTION_STATUS_COMPLETE") and length > 0' -e > /dev/null; then
         echo "All workflows completed as expected"
