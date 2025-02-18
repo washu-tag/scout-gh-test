@@ -12,6 +12,7 @@ for ((i = 0; i <= max_wait; ++i)); do
         exit 0
     else
         echo "Not all workflows completed, waiting and trying again..."
+        sudo kubectl exec -n temporal -i service/temporal-admintools -- temporal workflow list -o json
     fi
 
     sleep 1s
