@@ -6,6 +6,6 @@
   tasks:
     - name: Clone repository
       git:
-        repo: https://github.com/washu-tag/scout.git
+        repo: https://github.com/washu-tag/scout-gh-test.git
         dest: '{{ scout_repo_dir }}'
-        version: main
+        version: feb-17-ci
