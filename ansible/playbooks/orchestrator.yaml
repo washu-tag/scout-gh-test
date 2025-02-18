@@ -2,6 +2,8 @@
 - name: Install Temporal and workers
   hosts: server
   gather_facts: false
+  vars:
+
   environment:
     HELM_PLUGINS: '{{ helm_plugins_dir }}'
     KUBECONFIG: '{{ kubeconfig_yaml }}'
@@ -99,8 +101,8 @@
                 endpoint: 'http://minio.{{ minio_tenant_namespace }}'
                 region: '{{ s3_region }}'
         set_values:
-          - value: 'volumes[0].hostPath.path={{ log_mount | "/ceph/tag/home/test_data_v3/hl7ish_logs" }}'
-          - value: 'image.repository={{ temporal_java_image | "ghcr.io/washu-tag/temporal-java" }}'
+          - value: 'volumes[0].hostPath.path={{ log_mount | default("/ceph/tag/home/test_data_v3/hl7ish_logs") }}'
+          - value: 'image.repository={{ temporal_java_image | default("ghcr.io/washu-tag/temporal-java") }}'
 
     - name: Deploy Python worker
       kubernetes.core.helm:
@@ -114,4 +116,4 @@
         wait_timeout: 5m
         atomic: true
         set_values:
-          - value: 'image.repository={{ temporal_python_image | "ghcr.io/washu-tag/temporal-python" }}'
+          - value: 'image.repository={{ temporal_python_image | default("ghcr.io/washu-tag/temporal-python") }}'
