@@ -72,7 +72,7 @@ jobs:
         run: cd ansible && sudo /opt/pipx_bin/ansible-galaxy install -r collections/requirements.yaml
       - name: 'Copy scout'
         shell: bash
-        run: cd ansible && sudo /opt/pipx_bin/ansible-playbook -i inventory.yaml --diff playbooks/scout.yaml
+        run: sudo cp -r . /var/lib/scout # in CI workflow, we want to use current code, not "main" branch. TODO: don't hardcode path here
       - name: 'Install k3s'
         shell: bash
         run: |
