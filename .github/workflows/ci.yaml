@@ -110,7 +110,7 @@ jobs:
         shell: bash
         run: |
           minioIp=$(sudo kubectl get services/minio -n minio-scout -o json | jq '.status.loadBalancer.ingress[0].ip' -r)
-          sed -i "s/\$IP/$minioIp/g" .github/test_config_template.json
+          sed -i "s/\$IP/$minioIp/g" .github/ci_resources/test_config_template.json
           cp .github/ci_resources/test_config_template.json tests/src/test/resources/config/local.json
           cd tests
           ./gradlew test
