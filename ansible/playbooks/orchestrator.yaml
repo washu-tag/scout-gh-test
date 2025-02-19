@@ -2,7 +2,6 @@
 - name: Install Temporal and workers
   hosts: server
   gather_facts: false
-  vars:
 
   environment:
     HELM_PLUGINS: '{{ helm_plugins_dir }}'
