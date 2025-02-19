@@ -100,7 +100,7 @@
                 endpoint: 'http://minio.{{ minio_tenant_namespace }}'
                 region: '{{ s3_region }}'
         set_values:
-          - value: 'volumes[0].hostPath.path={{ log_mount | default("/ceph/tag/home/test_data_v3/hl7ish_logs") }}'
+          - value: 'volumes[0].hostPath.path={{ log_mount | default(omit) }}'
           - value: 'image.repository={{ temporal_java_image | default("ghcr.io/washu-tag/temporal-java") }}'
 
     - name: Deploy Python worker
