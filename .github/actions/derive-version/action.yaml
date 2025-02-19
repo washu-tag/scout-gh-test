@@ -6,7 +6,7 @@ inputs:
     required: true
 outputs:
   version:
-    description: "Derived version"
+    description: 'Derived version'
     value: ${{ steps.detect-version.outputs.version }}
 runs:
   using: 'composite'
