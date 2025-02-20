@@ -1,6 +1,6 @@
 nameOverride: temporal-java
 image:
-  repository: docker.io/local/washu-tag/temporal-java
+  repository: ghcr.io/washu-tag/temporal-java
   tag: latest
 envFrom:
   - secretRef:
@@ -13,7 +13,7 @@ env:
 volumes:
   - name: hl7logs
     hostPath:
-      path: /var/lib/scout/tests/staging_test_data/hl7/bad
+      path: /ceph/tag/home/test_data_v3/hl7ish_logs
 volumeMounts:
   - name: hl7logs
     mountPath: /hl7logs

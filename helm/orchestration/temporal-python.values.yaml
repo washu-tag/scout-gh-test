@@ -1,6 +1,6 @@
 nameOverride: temporal-python
 image:
-  repository: docker.io/local/washu-tag/temporal-java
+  repository: ghcr.io/washu-tag/temporal-python
   tag: latest
 envFrom:
   - secretRef:
