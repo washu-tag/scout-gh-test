@@ -101,12 +101,14 @@
                 region: '{{ s3_region }}'
           image:
             repository: '{{ temporal_java_image | default(omit) }}'
-          {% if log_mount is defined %}
-          volumes:
-            - name: hl7logs
-              hostPath:
-                path: {{ log_mount }}
-          {% endif %}
+          volumes: >-
+            {{ 
+              [{
+                'name': 'hl7logs', 
+                'hostPath': { 'path': log_mount }
+              }]
+              if log_mount is defined else omit 
+            }}
 
     - name: Deploy Python worker
       kubernetes.core.helm:
