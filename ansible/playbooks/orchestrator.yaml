@@ -100,7 +100,7 @@
                 endpoint: 'http://minio.{{ minio_tenant_namespace }}'
                 region: '{{ s3_region }}'
           image:
-            repository: { { temporal_java_image | default(omit) } }
+            repository: '{{ temporal_java_image | default(omit) }}'
         set_values:
           - value: 'volumes[0].hostPath.path={{ log_mount | default("/ceph/tag/home/test_data_v3/hl7ish_logs") }}'
 
