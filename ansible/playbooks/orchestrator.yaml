@@ -115,5 +115,6 @@
         wait: true
         wait_timeout: 5m
         atomic: true
-        image:
-          repository: '{{ temporal_python_image | default(omit) }}'
+        values:
+          image:
+            repository: '{{ temporal_python_image | default(omit) }}'
