@@ -101,6 +101,10 @@
                 region: '{{ s3_region }}'
           image:
             repository: '{{ temporal_java_image | default(omit) }}'
+          volumes:
+            - name: hl7logs
+              hostPath:
+                path: /var/lib/scout/tests/staging_test_data/hl7
         set_values:
           - value: '{{ ("volumes[0].hostPath.path=" + log_mount) if log_mount is defined else omit }}'
 
