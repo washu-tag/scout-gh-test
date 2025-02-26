@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
   push:
-    branches: [main]
+    branches: [main, exp]
 
 env:
   JAVA_DIST: 'zulu'
@@ -45,11 +45,11 @@ jobs:
         with:
           subproject: orchestration/temporal-python
           image-name: temporal-python
-      - name: 'Build/Cache Image - pyspark-notebook'
-        uses: ./.github/actions/docker-build-cache
-        with:
-          subproject: helm/jupyter/notebook
-          image-name: pyspark-notebook
+      #- name: 'Build/Cache Image - pyspark-notebook'
+      #  uses: ./.github/actions/docker-build-cache
+      #  with:
+      #    subproject: helm/jupyter/notebook
+      #    image-name: pyspark-notebook
       - name: 'Build/Cache Image - explorer'
         uses: ./.github/actions/docker-build-cache
         with:
@@ -179,10 +179,10 @@ jobs:
         uses: ./.github/actions/docker-push
         with:
           image-name: temporal-python
-      - name: 'Push Image - pyspark-notebook'
-        uses: ./.github/actions/docker-push
-        with:
-          image-name: pyspark-notebook
+      #- name: 'Push Image - pyspark-notebook'
+      #  uses: ./.github/actions/docker-push
+      #  with:
+      #    image-name: pyspark-notebook
       - name: 'Push Image - explorer'
         uses: ./.github/actions/docker-push
         with:
